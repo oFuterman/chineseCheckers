@@ -377,6 +377,7 @@ function pickSide6() {
 var playerTurn = 1;
 
 function turnSwitch() {
+    $('.clicked').removeClass('clicked');
     $('.spot').off();
     refresh();
     $('.spot').removeClass('unusedSpot');
@@ -480,6 +481,7 @@ function possiblePiece() {
 function clicked(current) {
     status = 'picked';
     current = $(current);
+    current.addClass('clicked');
     currentRow = parseInt(current.attr('row'));
     currentCol = parseInt(current.attr('col'));
     current.off();
@@ -512,6 +514,7 @@ function clicked(current) {
     }
     current.click(function () {
         status = 'looking';
+        $('.clicked').removeClass('clicked');
         $('.possibleSpot').off();
         $('.spot').off();
         refresh();
@@ -521,6 +524,7 @@ function clicked(current) {
 }
 
 function sideClicked(current, newSpot) {
+    $('.clicked').removeClass('clicked');
     newSpot = $(newSpot);
     var arr = [
         'blue',
@@ -552,6 +556,7 @@ function checkContinue() {
         'black'
     ];
     current = $('.moved');
+    current.off();
     currentRow = parseInt(current.attr('row'));
     currentCol = parseInt(current.attr('col'));
     var arr2 = [
@@ -584,6 +589,7 @@ function checkContinue() {
 function clickedMult(current) {
     status = 'picked';
     current = $(current);
+    current.addClass('clicked');
     currentRow = parseInt(current.attr('row'));
     currentCol = parseInt(current.attr('col'));
     current.off();
@@ -614,11 +620,12 @@ function clickedMult(current) {
     }
     current.click(function () {
         status = 'looking';
+        $('.clicked').removeClass('clicked');
         $('.possibleSpot').off();
         $('.spot').off();
         refresh();
         $('.possibleSpot').removeClass('possibleSpot');
-        current.click(function () { clicked(this) });
+        current.click(function () { clickedMult(this) });
     });
 }
 
