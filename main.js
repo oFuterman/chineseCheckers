@@ -424,6 +424,8 @@ function turnSwitch() {
 }
 
 function possiblePiece() {
+    $('.endTurn').off();
+    $('.endTurn').click(turnSwitch);
     $('.spot').off();
     refresh();
     $('.spot').removeClass('unusedSpot');
