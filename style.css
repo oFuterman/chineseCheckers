@@ -156,10 +156,10 @@ body{
     outline:0;
 }
 
-/* .possibleSpot{
+.possibleSpot{
     background-color:yellow;
     box-shadow: 0px 0px 10px 2px yellow;
-} */
+}
 
 .endTurn{
     box-shadow: 0px 0px 10px 1px black;
