@@ -119,6 +119,7 @@ body{
     display:flex;
     right:5%;
     font-size:2rem;
+    color:white;
 }
 
 .unusedSpot{

@@ -377,6 +377,7 @@ function pickSide6() {
 var playerTurn = 1;
 
 function turnSwitch() {
+    $('.possibleSpot').removeClass('possibleSpot');
     $('.clicked').removeClass('clicked');
     $('.spot').off();
     refresh();
@@ -486,8 +487,8 @@ function clicked(current) {
     current.addClass('clicked');
     currentRow = parseInt(current.attr('row'));
     currentCol = parseInt(current.attr('col'));
-    current.off();
     $('.spot').off();
+    current.off();
     refresh();
     var arr = [
         'blue',
@@ -497,6 +498,15 @@ function clicked(current) {
         'white',
         'black'
     ];
+    $('.'+arr[playerTurn-1]).click(function(){
+        $('.clicked').removeClass('clicked');
+        $('.possibleSpot').off();
+        $('.spot').off();
+        refresh();
+        $('.possibleSpot').removeClass('possibleSpot');
+        $('.'+arr[playerTurn-1]).off();
+        clicked(this);
+    });
     var arr2 = [
         -1,
         -1,
@@ -516,10 +526,10 @@ function clicked(current) {
         var sideOver = $("[row='" + (currentRow + (arr2[i] * 2)) + "'][col='" + (currentCol + (arr2[i + 1] * 2)) + "']");
         if (side.hasClass('unused')) {
             side.addClass('possibleSpot');
-            side.click(function () { sideClicked(current, this); })
+            side.click(function () { sideClicked(current, this, false); })
         } else if (sideOver.hasClass('unused')) {
             sideOver.addClass('possibleSpot');
-            sideOver.click(function () { sideClicked(current, this); })
+            sideOver.click(function () { sideClicked(current, this, true); })
         }
     }
     current.click(function () {
@@ -534,7 +544,7 @@ function clicked(current) {
     });
 }
 
-function sideClicked(current, newSpot) {
+function sideClicked(current, newSpot, cont) {
     $('.clicked').removeClass('clicked');
     newSpot = $(newSpot);
     var arr = [
@@ -554,7 +564,9 @@ function sideClicked(current, newSpot) {
     newSpot.removeClass('unused');
     newSpot.addClass('moved');
     refreshUnused();
-    checkContinue();
+    if(cont){
+        checkContinue();
+    }
 }
 
 function checkContinue() {
@@ -590,15 +602,17 @@ function checkContinue() {
         if (side.hasClass('unused')) {
         } else if (sideOver.hasClass('unused')) {
             current.off();
-            current.click(function () { clickedMult('.moved') });
+            // current.click(function () { clickedMult('.moved') });
         } else {
             current.click(function () { });
         }
     }
+    clickedMult('.moved');
 }
 
-function clickedMult(current) {
+function clickedMult(current, cont) {
     status = 'picked';
+    currentStore=current;
     current = $(current);
     current.addClass('clicked');
     currentRow = parseInt(current.attr('row'));
@@ -626,7 +640,7 @@ function clickedMult(current) {
         if (side.hasClass('unused')) {
         } else if (sideOver.hasClass('unused')) {
             sideOver.addClass('possibleSpot');
-            sideOver.click(function () { sideClicked(current, this); })
+            sideOver.click(function () { sideClicked(current, this, true); })
         }
     }
     current.click(function () {
@@ -638,6 +652,11 @@ function clickedMult(current) {
         $('.possibleSpot').removeClass('possibleSpot');
         current.click(function () { clickedMult(this) });
     });
+    if(cont){
+
+    }else{
+        clickedMult(currentStore, true);
+    }
 }
 
 function refresh() {
