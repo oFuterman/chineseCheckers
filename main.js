@@ -489,6 +489,14 @@ function clicked(current) {
     current.off();
     $('.spot').off();
     refresh();
+    var arr = [
+        'blue',
+        'red',
+        'green',
+        'purple',
+        'white',
+        'black'
+    ];
     var arr2 = [
         -1,
         -1,
@@ -521,7 +529,8 @@ function clicked(current) {
         $('.spot').off();
         refresh();
         $('.possibleSpot').removeClass('possibleSpot');
-        current.click(function () { clicked(this) });
+        $('.'+arr[playerTurn-1]).off();
+        $('.'+arr[playerTurn-1]).click(function () { clicked(this) });
     });
 }
 
